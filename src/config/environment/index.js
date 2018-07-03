@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === constants.ENV_PRODUCTION) {
 
 const all = {
   env: process.env.NODE_ENV,
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3020,
   ip: process.env.IP || 'localhost',
   seedDB: false,
   mongo: {
