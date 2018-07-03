@@ -2,7 +2,7 @@ swagger: "2.0"
 
 info:
   version: "0.0.1"
-  title: NodeJS Swagger Base Project
+  title: SECOMP Pokemon API Project
 
 host: pokeapi.moboweb.com.br
 basePath: /api/v1dev

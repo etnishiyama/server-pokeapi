@@ -1,4 +1,4 @@
-## NodeJS Swagger Base project
+## Pokemon API project
 
 ### Setup
 ```bash
