@@ -33,17 +33,17 @@ export function tokenVerifier(req, authOrSecDef, scopesOrApiKey, callback) {
 }
 
 export function generateToken(user) {
-  const sharedSecret = secretKey;
+  const timestamp = new Date();
 
   const payload = {
     _id: user._id,
     role: user.role,
-    _company: user._company ? user._company._id || user._company : null,
+    timestamp,
   };
 
   const token = jwt.sign(
     payload,
-    sharedSecret,
+    secretKey,
     { expiresIn: '999 days' },
   );
 

@@ -12,28 +12,15 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  lastname: {
+  firstName: {
     type: String,
   },
-  fullname: {
+  lastName: {
     type: String,
   },
   email: {
     type: String,
   },
-  category: {
-    type: String,
-  },
-  position: {
-    type: String,
-  },
-  workplace: {
-    type: String,
-  },
-  dependents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
   password: {
     type: String,
     required: true,
@@ -65,6 +52,7 @@ function generateHashPassword(user, next) {
       if (hashError) {
         return next(hashError);
       }
+
       newUser.password = hash;
       return next();
     });
@@ -83,6 +71,7 @@ userSchema.pre('save', function save(next) {
 
 userSchema.pre('findOneAndUpdate', function preSave(next) {
   const user = this.getUpdate();
+
   if (user.password.length > 20) {
     next();
   }

@@ -377,27 +377,14 @@ definitions:
     type: object
     properties:
       data:
-        type: object
-        properties:
-          token:
-            type: string
-          rtoken:
-            type: string
-          role:
-            type: string
-            enum: ['ADMIN', 'USER', 'FRANCHISE', 'EMPLOYEE', 'DOCTOR']
-          name:
-            type: string
-          lastname:
-            type: string
-          fullname:
-            type: string
-          email:
-            type: string
-          dependents:
-            type: array
-            items:
-              $ref: "#/definitions/User"
+        allOf:
+          - $ref: '#/definitions/User'
+          - type: object
+            properties:
+              token:
+                type: string
+              rtoken:
+                type: string
   User:
     title: User object model
     type: object
@@ -407,27 +394,22 @@ definitions:
     properties:
       name:
         type: string
-      lastname:
+      firstName:
         type: string
-      fullname:
+      lastName:
         type: string
       username:
         type: string
       email:
         type: string
         format: email
-      _company:
-        type: string
-      category:
-        type: string
-        enum: ['CLIENT', 'COMPANY', 'APP']
       password:
         type: string
       role:
         type: string
-        enum: ['ADMIN', 'USER', 'FRANCHISE', 'EMPLOYEE', 'DOCTOR']
+        enum: ['ADMIN', 'USER']
   UserAuth:
-    title: User informations needed for authentication
+    title: User information for authentication
     type: object
     required:
       - username

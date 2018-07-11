@@ -3,9 +3,9 @@ import constants from '../utils/constants';
 
 function createUserAdmin() {
   const newUser = new User({
-    name: 'Application',
-    lastname: 'Administrator',
-    fullname: 'Application Administrator',
+    firstName: 'Application',
+    lastName: 'Administrator',
+    name: 'Application Administrator',
     email: 'admin@admin.com',
     username: 'admin',
     password: 'admin',
@@ -21,9 +21,9 @@ function createUserAdmin() {
 
 function createDefaultUser() {
   const newUser = new User({
-    name: 'Usuário',
-    lastname: 'Padrão',
-    fullname: 'Usuário Padrão',
+    firstName: 'Usuário',
+    lastName: 'Padrão',
+    name: 'Usuário Padrão',
     email: 'user@user.com',
     username: 'user',
     password: 'user',
