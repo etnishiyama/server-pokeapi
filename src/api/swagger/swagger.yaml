@@ -24,47 +24,44 @@ securityDefinitions:
     name: apiKey
 
 paths:
-  # Partner paths
-  /partner:
-    x-swagger-router-controller: partner
+  # Pokemon paths
+  /pokemon:
+    x-swagger-router-controller: pokemon
     post:
       tags:
-        - Partner
+        - Pokemon
       security:
         - apiKey: [ ]
       x-security-scopes:
-        - USER
         - ADMIN
-        - FRANCHISE
-      description: Creates a Partner
-      operationId: postPartnerCreate
+      description: Creates a Pokemon
+      operationId: postPokemonCreate
       parameters:
         - in: body
           name: body
-          description: Add new Partner to the database
+          description: Add new Pokemon to the database
           required: true
           schema:
-            $ref: "#/definitions/Partner"
+            $ref: "#/definitions/Pokemon"
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/Partner"
+            $ref: "#/definitions/Pokemon"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     get:
       tags:
-        - Partner
+        - Pokemon
       security:
         - apiKey: [ ]
       x-security-scopes:
         - USER
         - ADMIN
-        - FRANCHISE
-      description: Returns the list of all Partner
-      operationId: getPartnerList
+      description: Returns the list of all Pokemon
+      operationId: getPokemonList
       parameters:
         - name: page
           in: query
@@ -74,82 +71,77 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/PartnerListResponse"
-  /partner/{id}:
-    x-swagger-router-controller: partner
+            $ref: "#/definitions/PokemonListResponse"
+  /pokemon/{id}:
+    x-swagger-router-controller: pokemon
     get:
       tags:
-        - Partner
+        - Pokemon
       security:
         - apiKey: [ ]
       x-security-scopes:
         - USER
         - ADMIN
-        - FRANCHISE
-      description: Retrieves a specific Partner by id
-      operationId: getPartnerById
+      description: Retrieves a specific Pokemon by id
+      operationId: getPokemonById
       parameters:
         - name: id
           in: path
-          description: id of Partner
+          description: id of Pokemon
           required: true
           type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/PartnerResponse"
+            $ref: "#/definitions/PokemonResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
       tags:
-        - Partner
+        - Pokemon
       security:
         - apiKey: [ ]
       x-security-scopes:
-        - USER
         - ADMIN
-        - FRANCHISE
-      description: upsert a Partner by id
-      operationId: putPartnerUpsert
+      description: upsert a Pokemon by id
+      operationId: putPokemonUpsert
       parameters:
         - name: id
           in: path
-          description: id of Partner
+          description: id of Pokemon
           required: true
           type: string
         - in: body
           name: body
-          description: Partner object data to update
+          description: Pokemon object data to update
           required: true
           schema:
-            $ref: "#/definitions/Partner"
+            $ref: "#/definitions/Pokemon"
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/PartnerResponse"
+            $ref: "#/definitions/PokemonResponse"
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - Partner
+        - Pokemon
       security:
         - apiKey: [ ]
       x-security-scopes:
-        - USER
         - ADMIN
-        - FRANCHISE
-      description: delete a specific Partner
-      operationId: deletePartnerRemove
+      description: delete a specific Pokemon
+      operationId: deletePokemonRemove
       parameters:
         - name: id
           in: path
-          description: id of Partner
+          description: id of Pokemon
           required: true
           type: string
       responses:
@@ -326,39 +318,53 @@ definitions:
       message:
         type: string
 
-  # Partner definitions
-  PartnerListResponse:
-    title: Partner list response object
+  # Pokemon definitions
+  PokemonListResponse:
+    title: Pokemon list response object
     properties:
       data:
         type: array
         items:
-          $ref: "#/definitions/Partner"
-  PartnerResponse:
-    title: Partner response object
+          $ref: "#/definitions/Pokemon"
+  PokemonResponse:
+    title: Pokemon response object
     properties:
       data:
-        $ref: '#/definitions/Partner'
-  Partner:
-    title: Partner object model
+        $ref: '#/definitions/Pokemon'
+  Pokemon:
+    title: Pokemon object model
     type: object
     required:
       - name
-      - logo
-      - url
+      - pokeNumber
     properties:
       name:
         type: string
-      logo:
+      pokeNumber:
+        type: number
+      weight:
+        type: number
+      picture:
         type: string
-      url:
-        type: string
-      description:
-        type: string
-      docsInfo:
-        type: string
-      extra:
-        type: string
+      stats:
+        type: object
+        properties:
+          speed:
+            type: number
+          attack:
+            type: number
+          defense:
+            type: number
+          hp:
+            type: number
+          specialDefense:
+            type: number
+          specialAttack:
+            type: number
+      types:
+        type: array
+        items:
+          type: string 
 
   # User definitions
   UserListResponse:
