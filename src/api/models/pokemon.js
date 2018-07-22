@@ -8,6 +8,7 @@ const pokemonSchema = new mongoose.Schema({
   },
   pokeNumber: {
     type: Number,
+    unique: true,
   },
   weight: {
     type: Number,

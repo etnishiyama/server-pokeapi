@@ -1,10 +1,10 @@
-import * as jsonpatch from 'fast-json-patch';
+import got from 'got';
 import Pokemon from '../models/pokemon';
 import User from '../models/user';
 import patchUpdates from '../utils/mongoHelper';
 import {
   handleEntityNotFound,
-  handleError,
+  handleError, respondWithData,
   respondWithDeletedMessage,
   respondWithResult,
 } from '../utils/requestHelpers';
@@ -102,4 +102,33 @@ export function deletePokemonRemove(req, res) {
     .then(entity => entity.remove())
     .then(respondWithDeletedMessage(res))
     .catch(handleError(res));
+}
+
+export function getPokemonSync(req, res) {
+  const pokemonsQuantity = req.swagger.params.quantity.value;
+  Pokemon.collection.drop();
+
+  for (let i = 1; i <= pokemonsQuantity; i++) {
+    got(`http://pokeapi.co/api/v2/pokemon/${i}`, { json: true })
+      .then((response) => {
+        const newPokemon = new Pokemon();
+        newPokemon.name = response.body.name;
+        newPokemon.pokeNumber = response.body.id;
+        newPokemon.weight = response.body.weight;
+        newPokemon.picture = response.body.sprites.front_default;
+        newPokemon.stats.speed = response.body.stats.find(stat => stat.stat.name === 'speed').base_stat;
+        newPokemon.stats.attack = response.body.stats.find(stat => stat.stat.name === 'attack').base_stat;
+        newPokemon.stats.defense = response.body.stats.find(stat => stat.stat.name === 'defense').base_stat;
+        newPokemon.stats.hp = response.body.stats.find(stat => stat.stat.name === 'hp').base_stat;
+        newPokemon.stats.specialDefense = response.body.stats.find(stat => stat.stat.name === 'special-defense').base_stat;
+        newPokemon.stats.specialAttack = response.body.stats.find(stat => stat.stat.name === 'special-attack').base_stat;
+        newPokemon.types = response.body.types.map(type => type.type.name);
+        newPokemon.save();
+      })
+      .catch((error) => {
+        console.log(`Error: ${JSON.stringify(error.response)}`);
+      });
+  }
+
+  return respondWithData(res, { message: 'Synced successfully!' });
 }

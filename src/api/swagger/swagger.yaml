@@ -72,6 +72,32 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/PokemonListResponse"
+  /pokemon/sync/{quantity}:
+    x-swagger-router-controller: pokemon
+    get:
+      tags:
+        - Pokemon
+      security:
+        - apiKey: [ ]
+      x-security-scopes:
+        - ADMIN
+      description: Sync Pokemons with pokeapi.co
+      operationId: getPokemonSync
+      parameters:
+        - name: quantity
+          in: path
+          description: quantity of Pokemons to be synced
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PokemonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /pokemon/{id}:
     x-swagger-router-controller: pokemon
     get:

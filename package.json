@@ -12,6 +12,7 @@
   "license": "",
   "main": "dist/index.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
@@ -19,6 +20,7 @@
     "express": "^4.12.3",
     "fast-json-patch": "^2.0.5",
     "file-type": "^8.0.0",
+    "got": "^8.3.2",
     "http-status": "^1.0.1",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
