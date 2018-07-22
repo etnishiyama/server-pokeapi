@@ -151,6 +151,33 @@ paths:
             description: Error
             schema:
               $ref: "#/definitions/ErrorResponse"
+  /pokemon/{id}/capture:
+    x-swagger-router-controller: pokemon
+    post:
+      tags:
+        - Pokemon
+      security:
+        - apiKey: [ ]
+      x-security-scopes:
+        - USER
+        - ADMIN
+      description: Add a pokemon to user list
+      operationId: postPokemonCaptureById
+      parameters:
+        - name: id
+          in: path
+          description: id of Pokemon
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/PokemonResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
   # User paths
   /user/authenticate:
@@ -181,10 +208,6 @@ paths:
     post:
       tags:
         - User
-      security:
-        - apiKey: [ ]
-      x-security-scopes:
-        - ADMIN
       description: Creates a user
       operationId: postUserCreate
       parameters:

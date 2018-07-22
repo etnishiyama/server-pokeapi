@@ -1,4 +1,6 @@
+import * as jsonpatch from 'fast-json-patch';
 import Pokemon from '../models/pokemon';
+import User from '../models/user';
 import patchUpdates from '../utils/mongoHelper';
 import {
   handleEntityNotFound,
@@ -11,8 +13,14 @@ import imageHelper from '../utils/imageHelper';
 
 // Gets a list of Pokemons
 export function getPokemonList(req, res) {
-  const pageNumber = req.swagger.params.page.value || 1;
-  return Pokemon.paginate({}, { page: pageNumber })
+  const userRole = req.auth.role;
+  const userId = req.auth._id;
+  const queryOptions = { page: req.swagger.params.page.value || 1 };
+
+  const queryPromise = userRole === constants.ROLE_USER ?
+    User.findById(userId).select('pokemons').populate('pokemons') : Pokemon.paginate({}, queryOptions);
+
+  return queryPromise
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -36,6 +44,22 @@ export function postPokemonCreate(req, res) {
       return Pokemon.create(newPokemon);
     })
     .then(respondWithResult(res, 201))
+    .catch(handleError(res));
+}
+
+export function postPokemonCaptureById(req, res) {
+  const userId = req.auth._id;
+  const pokemonId = req.swagger.params.id.value;
+
+  const queryUser = {
+    $and: [{ _id: userId },
+      { pokemons: { $ne: pokemonId } }],
+  };
+
+  const updateQuery = { $push: { pokemons: pokemonId } };
+
+  User.update(queryUser, updateQuery)
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 

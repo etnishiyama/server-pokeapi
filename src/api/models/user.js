@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
   },
+  pokemons: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pokemon',
+  }],
   password: {
     type: String,
     required: true,

@@ -15,6 +15,10 @@ const pokemonSchema = new mongoose.Schema({
   picture: {
     type: String,
   },
+  users: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
   stats: {
     speed: {
       type: Number,
