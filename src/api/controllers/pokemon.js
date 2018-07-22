@@ -15,7 +15,10 @@ import imageHelper from '../utils/imageHelper';
 export function getPokemonList(req, res) {
   const userRole = req.auth.role;
   const userId = req.auth._id;
-  const queryOptions = { page: req.swagger.params.page.value || 1 };
+  const queryOptions = {
+    page: req.swagger.params.page.value || 1,
+    sort: { pokeNumber: 1 },
+  };
 
   const queryPromise = userRole === constants.ROLE_USER ?
     User.findById(userId).select('pokemons').populate('pokemons') : Pokemon.paginate({}, queryOptions);
@@ -106,7 +109,6 @@ export function deletePokemonRemove(req, res) {
 
 export function getPokemonSync(req, res) {
   const pokemonsQuantity = req.swagger.params.quantity.value;
-  Pokemon.collection.drop();
 
   for (let i = 1; i <= pokemonsQuantity; i++) {
     got(`http://pokeapi.co/api/v2/pokemon/${i}`, { json: true })
